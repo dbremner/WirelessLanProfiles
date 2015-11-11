@@ -76,9 +76,8 @@ namespace WlanNative
         void ScanForNetworks()
         {
             GUID g;
-            DWORD result;
             WlanProfile::ConvertNative(guid, &g);
-            result = WlanScan((HANDLE)(void*)handle, &g, NULL, NULL, NULL);
+            DWORD result = WlanScan((HANDLE)(void*)handle, &g, NULL, NULL, NULL);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -88,11 +87,10 @@ namespace WlanNative
         System::Collections::Generic::List<WlanNetwork^>^ GetAvailableNetworks(bool adhoc, bool hidden)
         {
             
-            GUID g;
-            DWORD result, flags;
             PWLAN_AVAILABLE_NETWORK_LIST nlist;
+			GUID g;
             WlanProfile::ConvertNative(guid, &g);
-            flags = 0;
+            DWORD flags = 0;
             if (adhoc)
             {
                 flags += WLAN_AVAILABLE_NETWORK_INCLUDE_ALL_ADHOC_PROFILES;
@@ -101,7 +99,7 @@ namespace WlanNative
             {
                 flags += WLAN_AVAILABLE_NETWORK_INCLUDE_ALL_MANUAL_HIDDEN_PROFILES;
             }
-            result = WlanGetAvailableNetworkList((HANDLE)(void*)handle, &g, 3, NULL, &nlist); 
+            DWORD result = WlanGetAvailableNetworkList((HANDLE)(void*)handle, &g, 3, NULL, &nlist); 
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -171,10 +169,9 @@ namespace WlanNative
         {
             if (guid == nullptr) return nullptr;
             GUID g;
-            DWORD result;
             PWLAN_PROFILE_INFO_LIST pProfiles;
             WlanProfile::ConvertNative(guid, &g);
-            result = WlanGetProfileList((HANDLE)(void*)handle, &g, NULL, &pProfiles);
+            DWORD result = WlanGetProfileList((HANDLE)(void*)handle, &g, NULL, &pProfiles);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -195,11 +192,11 @@ namespace WlanNative
         String^ GetProfile(WlanProfile^ profile)
         {
             GUID g;
-            DWORD result, flags, access;
+            DWORD flags, access;
             LPWSTR profileXML;
             pin_ptr<const wchar_t> pName = PtrToStringChars(profile->ProfileName);
             WlanProfile::ConvertNative(guid, &g);
-            result = WlanGetProfile((HANDLE)(void*)handle, &g, pName, NULL, &profileXML, &flags, &access);
+            DWORD result = WlanGetProfile((HANDLE)(void*)handle, &g, pName, NULL, &profileXML, &flags, &access);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -213,10 +210,10 @@ namespace WlanNative
         void SetProfile(WlanProfile^ profile, String^ profileXML)
         {
             GUID g;
-            DWORD result, reason;
+            DWORD reason;
             pin_ptr<const wchar_t> pXML = PtrToStringChars(profileXML);
             WlanProfile::ConvertNative(guid, &g);
-            result = WlanSetProfile((HANDLE)(void*)handle, &g, 0, pXML, NULL, TRUE, NULL, &reason);
+            DWORD result = WlanSetProfile((HANDLE)(void*)handle, &g, 0, pXML, NULL, TRUE, NULL, &reason);
             if (result != ERROR_SUCCESS)
             {
                 if (result == ERROR_BAD_PROFILE)
@@ -251,12 +248,11 @@ namespace WlanNative
         //Shows the dialog that lets the user edit the network
         int ShowEditProfileDialog(WlanProfile^ profile, IntPtr hwnd)
         {
-            DWORD result;
             WLAN_REASON_CODE code;
             GUID g;
             pin_ptr<const wchar_t> name = PtrToStringChars(profile->ProfileName);
             WlanProfile::ConvertNative(guid, &g);
-            result = WlanUIEditProfile(WLAN_UI_API_VERSION, name, &g, (HWND)(void*)hwnd, WL_DISPLAY_PAGES::WLConnectionPage, NULL, &code);
+            DWORD result = WlanUIEditProfile(WLAN_UI_API_VERSION, name, &g, (HWND)(void*)hwnd, WL_DISPLAY_PAGES::WLConnectionPage, NULL, &code);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));

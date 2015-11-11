@@ -75,13 +75,13 @@ namespace WlanNative {
         }
         int RegisterForSpecificNotifications(unsigned int types, bool allowDuplicates)
         {
-            DWORD result, old;
+            DWORD old;
             if (proc == nullptr)
             {
                 proc = gcnew NotificationCallbackProc(this, &WlanNative::NotificationCallback);
             }
             IntPtr context = System::Runtime::InteropServices::Marshal::GetFunctionPointerForDelegate(proc);
-            result = WlanRegisterNotification((HANDLE)(void*)handle, types, allowDuplicates ? FALSE : TRUE, WlanNotificationCallbackGlobal, (void*)context, NULL, &old);
+            DWORD result = WlanRegisterNotification((HANDLE)(void*)handle, types, allowDuplicates ? FALSE : TRUE, WlanNotificationCallbackGlobal, (void*)context, NULL, &old);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
