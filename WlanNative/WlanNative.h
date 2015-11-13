@@ -57,10 +57,10 @@ namespace WlanNative {
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
             }
-            List<WlanInterface^>^ interfaces = gcnew List<WlanInterface^>();
+            auto interfaces = gcnew List<WlanInterface^>();
             for (DWORD index = 0; index < pInterfaces->dwNumberOfItems; index++)
             {
-                WlanInterface^ wi = gcnew WlanInterface(&pInterfaces->InterfaceInfo[index], handle);
+                auto wi = gcnew WlanInterface(&pInterfaces->InterfaceInfo[index], handle);
                 if (wi != nullptr)
                 {
                     interfaces->Add(wi);

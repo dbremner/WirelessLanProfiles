@@ -57,7 +57,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
                     cbProfiles.DataSource = i.GetProfiles( );
@@ -73,7 +73,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
                     i.Connect(tbTmpProfile.Text);
@@ -90,13 +90,13 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
-                    WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+                    var p = cbProfiles.SelectedItem as WlanProfile;
                     if(p != null)
                     {
-                        string xmlText = tbEAPXML.Text;
+                        var xmlText = tbEAPXML.Text;
                         if (string.IsNullOrEmpty(xmlText)) return;
                         i.SetProfileEAPXmlUserData(p.ProfileName, xmlText, true);
                     }
@@ -113,10 +113,10 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
-                    WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+                    var p = cbProfiles.SelectedItem as WlanProfile;
                     if(p != null)
                     {
                         i.ShowEditProfileDialog(p, Handle);
@@ -134,10 +134,10 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
-                    WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+                    var p = cbProfiles.SelectedItem as WlanProfile;
                     if (p != null)
                     {
                         i.Connect(p);
@@ -155,7 +155,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
                     i.Disconnect( );
@@ -171,13 +171,13 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
-                    WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+                    var p = cbProfiles.SelectedItem as WlanProfile;
                     if (p != null)
                     {
-                        string xml = tbProfileXML.Text;
+                        var xml = tbProfileXML.Text;
                         if(!string.IsNullOrWhiteSpace(xml))
                         {
                             i.SetProfile(p, xml);
@@ -195,10 +195,10 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
-                    WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+                    var p = cbProfiles.SelectedItem as WlanProfile;
                     if (p != null)
                     {
                         tbProfileXML.Text = i.GetProfile(p);
@@ -223,7 +223,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
                     cbNetworks.DataSource = i.GetAvailableNetworks(true, true);
@@ -240,7 +240,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanNetwork n = cbNetworks.SelectedItem as WlanNetwork;
+                var n = cbNetworks.SelectedItem as WlanNetwork;
                 if (n != null)
                 {
                     pgNetwork.SelectedObject = n;   
@@ -257,7 +257,7 @@ namespace WirelessLanProfiles
         {
             try
             {
-                WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+                var i = cbInterfaces.SelectedItem as WlanInterface;
                 if (i != null)
                 {
                     i.ScanForNetworks( );
@@ -306,19 +306,19 @@ namespace WirelessLanProfiles
             {
                 try
                 {
-                    Guid netInterface = (Guid)rawNetInterface;
-                    StringBuilder message = new StringBuilder( );
+                    var netInterface = (Guid)rawNetInterface;
+                    var message = new StringBuilder( );
                     message.Append("Notification received from ");
                     message.Append(source);
                     message.Append(" on interface \"");
-                    List<WlanInterface> interfaces = cbInterfaces.DataSource as List<WlanInterface>;
+                    var interfaces = cbInterfaces.DataSource as List<WlanInterface>;
                     if (interfaces == null)
                     {
                         message.Append(rawNetInterface.ToString( ));
                     }
                     else
                     {
-                        WlanInterface iface = interfaces.FirstOrDefault((x) => ((Guid)x.InterfaceGuid).Equals(rawNetInterface));
+                        var iface = interfaces.FirstOrDefault((x) => ((Guid)x.InterfaceGuid).Equals(rawNetInterface));
                         if (iface != null)
                         {
                             message.Append(iface.Description);
@@ -351,7 +351,7 @@ namespace WirelessLanProfiles
 
         private void cbInterfaces_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WlanInterface i = cbInterfaces.SelectedItem as WlanInterface;
+            var i = cbInterfaces.SelectedItem as WlanInterface;
             if (i != null)
             {
                 ShowTabs( );
@@ -380,7 +380,7 @@ namespace WirelessLanProfiles
 
         private void cbProfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WlanProfile p = cbProfiles.SelectedItem as WlanProfile;
+            var p = cbProfiles.SelectedItem as WlanProfile;
             if(p != null)
             {
                 pgProf.SelectedObject = p;

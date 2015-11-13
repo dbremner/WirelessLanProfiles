@@ -105,8 +105,8 @@ namespace WlanNative
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
             }
 
-            System::Collections::Generic::List<WlanNetwork^>^ networks = gcnew System::Collections::Generic::List<WlanNetwork^>();
             for (int i = 0; i < nlist->dwNumberOfItems; i++)
+            auto networks = gcnew System::Collections::Generic::List<WlanNetwork^>();
             {
                 networks->Add(gcnew WlanNetwork(&nlist->Network[i]));
             }
@@ -176,10 +176,10 @@ namespace WlanNative
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
             }
-            System::Collections::Generic::List<WlanProfile^>^ profiles = gcnew System::Collections::Generic::List<WlanProfile^>();
+            auto profiles = gcnew System::Collections::Generic::List<WlanProfile^>();
             for (DWORD index = 0; index < pProfiles->dwNumberOfItems; index++)
             {
-                WlanProfile^ wp = gcnew WlanProfile(&pProfiles->ProfileInfo[index], handle);
+                auto wp = gcnew WlanProfile(&pProfiles->ProfileInfo[index], handle);
                 if (wp != nullptr)
                 {
                     profiles->Add(wp);
@@ -201,7 +201,7 @@ namespace WlanNative
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
             }
-            String^ returnValue = gcnew String(profileXML);
+            auto returnValue = gcnew String(profileXML);
             Free(profileXML);
             return returnValue;
         }
@@ -224,8 +224,8 @@ namespace WlanNative
                     {
                         if (WlanReasonCodeToString(reason, bufferSize, buffer, NULL) == ERROR_SUCCESS)
                         {
-                            Exception^ spException = gcnew Exception(gcnew String(buffer));
                             free(buffer);
+                            auto spException = gcnew Exception(gcnew String(buffer));
                             throw spException;
                         }
                         free(buffer);
@@ -317,7 +317,7 @@ namespace WlanNative
         {
             array<WlanRadioState^>^ get()
             {
-                System::Collections::Generic::List<WlanRadioState^>^ states = gcnew System::Collections::Generic::List<WlanRadioState^>();
+                auto states = gcnew System::Collections::Generic::List<WlanRadioState^>();
 
                 WLAN_RADIO_STATE * data;
                 DWORD dataSize;
@@ -407,7 +407,7 @@ namespace WlanNative
                 WLAN_OPCODE_VALUE_TYPE valueType;
                 if (!Query(wlan_intf_opcode_current_connection, (void**)&data, &dataSize, &valueType)) return gcnew String("Error");
                 if (dataSize != sizeof(WLAN_CONNECTION_ATTRIBUTES)) return gcnew String("Error");
-                String^ result = gcnew String(data->strProfileName);
+                auto result = gcnew String(data->strProfileName);
                 Free(data);
                 return result;
             }
@@ -498,7 +498,7 @@ namespace WlanNative
         {
             array<WlanAuthCipherProperty^>^ get()
             {
-                System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ results = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
+                auto results = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
                 WLAN_AUTH_CIPHER_PAIR_LIST * data;
                 DWORD dataSize;
                 WLAN_OPCODE_VALUE_TYPE valueType;
@@ -512,7 +512,7 @@ namespace WlanNative
         {
             array<WlanAuthCipherProperty^>^ get()
             {
-                System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ results = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
+                auto results = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
                 WLAN_AUTH_CIPHER_PAIR_LIST * data;
                 DWORD dataSize;
                 WLAN_OPCODE_VALUE_TYPE valueType;
@@ -528,7 +528,7 @@ namespace WlanNative
         {
             array<String^>^ get()
             {
-                System::Collections::Generic::List<String^>^ results = gcnew System::Collections::Generic::List<String^>();
+                auto results = gcnew System::Collections::Generic::List<String^>();
                 WLAN_COUNTRY_OR_REGION_STRING_LIST* data;
                 DWORD dataSize;
                 WLAN_OPCODE_VALUE_TYPE valueType;
@@ -665,9 +665,9 @@ namespace WlanNative
         //Converts the easier to use dictionary to an array that a PropertyGrid control can use
         static array<WlanAuthCipherProperty^>^ ConvertDictionary(System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ results)
         {
-            array<WlanAuthCipherProperty^>^ a = gcnew array<WlanAuthCipherProperty^>(results->Count);
+            auto a = gcnew array<WlanAuthCipherProperty^>(results->Count);
             int index = 0;
-            for each (String^ var in results->Keys)
+            for each (auto var in results->Keys)
             {
                 a[index] = gcnew WlanAuthCipherProperty();
                 a[index]->AuthType = var;

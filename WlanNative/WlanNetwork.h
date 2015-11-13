@@ -85,15 +85,15 @@ namespace WlanNative
             for (int i = 0; i < pairs->dwNumberOfItems; i++)
             {
                 DOT11_AUTH_CIPHER_PAIR pair = pairs->pAuthCipherPairList[i];
-                String^ auth = TranslateAuth(pair.AuthAlgoId);
-                String^ cipher = TranslateCipher(pair.CipherAlgoId);
+				auto auth = TranslateAuth(pair.AuthAlgoId);
+                auto cipher = TranslateCipher(pair.CipherAlgoId);
                 if (results->ContainsKey(auth))
                 {
                     results[auth]->Add(cipher);
                 }
                 else
                 {
-                    System::Collections::Generic::List<String^>^ l = gcnew System::Collections::Generic::List<String^>();
+                    auto l = gcnew System::Collections::Generic::List<String^>();
                     l->Add(cipher);
                     results->Add(auth, l);
                 }
@@ -217,8 +217,8 @@ namespace WlanNative
                 if (!buffer) return String::Empty;
                 if (WlanReasonCodeToString(n->wlanNotConnectableReason, bufferSize, buffer, NULL) == ERROR_SUCCESS)
                 {
-                    String^ retString = gcnew String(buffer);
                     free(buffer);
+                    auto retString = gcnew String(buffer);
                     return retString;
                 }
                 free(buffer);
