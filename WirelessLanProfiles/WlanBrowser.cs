@@ -27,17 +27,17 @@ namespace WirelessLanProfiles
         #region Non Event Code
         WlanNative.WlanNative native = null;
 
-        void HideTabs( )
+        private void HideTabs( )
         {
             if (tabControl.Visible) tabControl.Visible = false;
         }
 
-        void ShowTabs( )
+        private void ShowTabs( )
         {
             if (!tabControl.Visible) tabControl.Visible = true;
         }
 
-        void RefreshInterfaces( )
+        private void RefreshInterfaces( )
         {
             try
             {
@@ -53,7 +53,7 @@ namespace WirelessLanProfiles
             }
         }
 
-        void RefreshProfiles( )
+        private void RefreshProfiles( )
         {
             try
             {
@@ -69,7 +69,7 @@ namespace WirelessLanProfiles
             }
         }
 
-        void ConnectTempProfile( )
+        private void ConnectTempProfile( )
         {
             try
             {
