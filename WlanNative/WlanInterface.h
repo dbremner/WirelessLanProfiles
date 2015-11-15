@@ -54,7 +54,7 @@ namespace WlanNative
             state = info->isState;
             handle = hWlan;
             PWLAN_INTERFACE_CAPABILITY pWic;
-            DWORD result = WlanGetInterfaceCapability((HANDLE)(void*)handle, &info->InterfaceGuid, NULL, &pWic);
+            DWORD result = WlanGetInterfaceCapability((HANDLE)(void*)handle, &info->InterfaceGuid, nullptr, &pWic);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -77,7 +77,7 @@ namespace WlanNative
         {
             GUID g;
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanScan((HANDLE)(void*)handle, &g, NULL, NULL, NULL);
+            DWORD result = WlanScan((HANDLE)(void*)handle, &g, NULL, NULL, nullptr);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -120,7 +120,7 @@ namespace WlanNative
             WlanProfile::ConvertNative(guid, &g);
             pin_ptr<const wchar_t> xml = PtrToStringChars(userData);
             pin_ptr<const wchar_t> name = PtrToStringChars(profileName);
-            DWORD result = WlanSetProfileEapXmlUserData((HANDLE)(void*)handle, &g, name, allUsers ? 1 : 0, xml, NULL);
+            DWORD result = WlanSetProfileEapXmlUserData((HANDLE)(void*)handle, &g, name, allUsers ? 1 : 0, xml, nullptr);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -132,9 +132,9 @@ namespace WlanNative
             WLAN_CONNECTION_PARAMETERS parameters;
             ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
             parameters.wlanConnectionMode = secure ? WLAN_CONNECTION_MODE::wlan_connection_mode_discovery_secure : WLAN_CONNECTION_MODE::wlan_connection_mode_discovery_unsecure;
-            parameters.strProfile = NULL;
-            parameters.pDot11Ssid = NULL;
-            parameters.pDesiredBssidList = NULL;
+			parameters.strProfile = nullptr;
+			parameters.pDot11Ssid = nullptr;
+            parameters.pDesiredBssidList = nullptr;
             parameters.dot11BssType = DOT11_BSS_TYPE::dot11_BSS_type_any;
             Connect(&parameters);
         }
@@ -146,8 +146,8 @@ namespace WlanNative
             ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
             parameters.wlanConnectionMode = WLAN_CONNECTION_MODE::wlan_connection_mode_profile;
             parameters.strProfile = name;
-            parameters.pDot11Ssid = NULL;
-            parameters.pDesiredBssidList = NULL;
+			parameters.pDot11Ssid = nullptr;
+			parameters.pDesiredBssidList = nullptr;
             parameters.dot11BssType = DOT11_BSS_TYPE::dot11_BSS_type_any; //This would actually need to be modified if there was something different in the profile
             Connect(&parameters);
         }
@@ -159,8 +159,8 @@ namespace WlanNative
             ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
             parameters.wlanConnectionMode = WLAN_CONNECTION_MODE::wlan_connection_mode_temporary_profile;
             parameters.strProfile = name;
-            parameters.pDot11Ssid = NULL;
-            parameters.pDesiredBssidList = NULL;
+            parameters.pDot11Ssid = nullptr;
+			parameters.pDesiredBssidList = nullptr;
             parameters.dot11BssType = DOT11_BSS_TYPE::dot11_BSS_type_any; //This would actually need to be modified if there was something different in the profile
             Connect(&parameters);
         }
@@ -171,7 +171,7 @@ namespace WlanNative
             GUID g;
             PWLAN_PROFILE_INFO_LIST pProfiles;
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanGetProfileList((HANDLE)(void*)handle, &g, NULL, &pProfiles);
+            DWORD result = WlanGetProfileList((HANDLE)(void*)handle, &g, nullptr, &pProfiles);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -196,7 +196,7 @@ namespace WlanNative
             LPWSTR profileXML;
             pin_ptr<const wchar_t> pName = PtrToStringChars(profile->ProfileName);
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanGetProfile((HANDLE)(void*)handle, &g, pName, NULL, &profileXML, &flags, &access);
+            DWORD result = WlanGetProfile((HANDLE)(void*)handle, &g, pName, nullptr, &profileXML, &flags, &access);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -213,7 +213,7 @@ namespace WlanNative
             DWORD reason;
             pin_ptr<const wchar_t> pXML = PtrToStringChars(profileXML);
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanSetProfile((HANDLE)(void*)handle, &g, 0, pXML, NULL, TRUE, NULL, &reason);
+            DWORD result = WlanSetProfile((HANDLE)(void*)handle, &g, 0, pXML, NULL, TRUE, nullptr, &reason);
             if (result != ERROR_SUCCESS)
             {
                 if (result == ERROR_BAD_PROFILE)
@@ -222,7 +222,7 @@ namespace WlanNative
                     wchar_t* buffer = (wchar_t*)malloc(bufferSize);
                     if (buffer)
                     {
-                        if (WlanReasonCodeToString(reason, bufferSize, buffer, NULL) == ERROR_SUCCESS)
+                        if (WlanReasonCodeToString(reason, bufferSize, buffer, nullptr) == ERROR_SUCCESS)
                         {
                             free(buffer);
                             auto spException = gcnew Exception(gcnew String(buffer));
@@ -239,7 +239,7 @@ namespace WlanNative
         {
             GUID g;
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanDisconnect((HANDLE)(void*)handle, &g, NULL);
+            DWORD result = WlanDisconnect((HANDLE)(void*)handle, &g, nullptr);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -252,7 +252,7 @@ namespace WlanNative
             GUID g;
             pin_ptr<const wchar_t> name = PtrToStringChars(profile->ProfileName);
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanUIEditProfile(WLAN_UI_API_VERSION, name, &g, (HWND)(void*)hwnd, WL_DISPLAY_PAGES::WLConnectionPage, NULL, &code);
+            DWORD result = WlanUIEditProfile(WLAN_UI_API_VERSION, name, &g, (HWND)(void*)hwnd, WL_DISPLAY_PAGES::WLConnectionPage, nullptr, &code);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -640,7 +640,7 @@ namespace WlanNative
         {
             GUID g;
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanConnect((HANDLE)(void*)handle, &g, parameters, NULL);
+            DWORD result = WlanConnect((HANDLE)(void*)handle, &g, parameters, nullptr);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -652,7 +652,7 @@ namespace WlanNative
         {
             GUID g;
             WlanProfile::ConvertNative(guid, &g);
-            DWORD result = WlanQueryInterface((HANDLE)(void*)handle, &g, opcode, NULL, pDataSize, ppData, valueType);
+            DWORD result = WlanQueryInterface((HANDLE)(void*)handle, &g, opcode, nullptr, pDataSize, ppData, valueType);
             return result == ERROR_SUCCESS;
         }
 

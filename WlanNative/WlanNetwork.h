@@ -215,7 +215,7 @@ namespace WlanNative
                 DWORD bufferSize = 4096;
                 wchar_t* buffer = (wchar_t*)malloc(4096);
                 if (!buffer) return String::Empty;
-                if (WlanReasonCodeToString(n->wlanNotConnectableReason, bufferSize, buffer, NULL) == ERROR_SUCCESS)
+                if (WlanReasonCodeToString(n->wlanNotConnectableReason, bufferSize, buffer, nullptr) == ERROR_SUCCESS)
                 {
                     free(buffer);
                     auto retString = gcnew String(buffer);

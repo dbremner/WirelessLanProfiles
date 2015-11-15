@@ -24,7 +24,7 @@ namespace WlanNative {
             HANDLE h;
             DWORD version;
             //Subsequent code assumes that version two will always be available
-            DWORD result = WlanOpenHandle(2, NULL, &version, &h);
+            DWORD result = WlanOpenHandle(2, nullptr, &version, &h);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -37,7 +37,7 @@ namespace WlanNative {
             if (h)
             {
                 UnregisterForNotifications(); //Close notifications just in case
-                WlanCloseHandle(h, NULL);
+                WlanCloseHandle(h, nullptr);
                 handle = (IntPtr)NULL;
             }
         }
@@ -52,7 +52,7 @@ namespace WlanNative {
         List<WlanInterface^>^ GetInterfaces()
         {
             PWLAN_INTERFACE_INFO_LIST pInterfaces;
-            DWORD result = WlanEnumInterfaces((HANDLE)(void*)handle, NULL, &pInterfaces);
+            DWORD result = WlanEnumInterfaces((HANDLE)(void*)handle, nullptr, &pInterfaces);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
@@ -81,7 +81,7 @@ namespace WlanNative {
                 proc = gcnew NotificationCallbackProc(this, &WlanNative::NotificationCallback);
             }
             IntPtr context = System::Runtime::InteropServices::Marshal::GetFunctionPointerForDelegate(proc);
-            DWORD result = WlanRegisterNotification((HANDLE)(void*)handle, types, allowDuplicates ? FALSE : TRUE, WlanNotificationCallbackGlobal, (void*)context, NULL, &old);
+            DWORD result = WlanRegisterNotification((HANDLE)(void*)handle, types, allowDuplicates ? FALSE : TRUE, WlanNotificationCallbackGlobal, (void*)context, nullptr, &old);
             if (result != ERROR_SUCCESS)
             {
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
