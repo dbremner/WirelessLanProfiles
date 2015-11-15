@@ -105,8 +105,8 @@ namespace WlanNative
                 System::Runtime::InteropServices::Marshal::ThrowExceptionForHR(HRESULT_FROM_WIN32(result));
             }
 
-            for (int i = 0; i < nlist->dwNumberOfItems; i++)
             auto networks = gcnew System::Collections::Generic::List<WlanNetwork^>();
+            for (DWORD i = 0; i < nlist->dwNumberOfItems; i++)
             {
                 networks->Add(gcnew WlanNetwork(&nlist->Network[i]));
             }
@@ -325,7 +325,7 @@ namespace WlanNative
                 if (!Query(wlan_intf_opcode_radio_state, (void**)&data, &dataSize, &valueType)) return states->ToArray();
                 if (dataSize != sizeof(WLAN_RADIO_STATE)) return states->ToArray();
                 WLAN_INTERFACE_CAPABILITY* caps = (WLAN_INTERFACE_CAPABILITY*)(void*)capabilities;
-                for (int i = 0; i < data->dwNumberOfPhys; i++)
+                for (DWORD i = 0; i < data->dwNumberOfPhys; i++)
                 {
                     WLAN_PHY_RADIO_STATE rs = data->PhyRadioState[i];
                     states->Add(gcnew WlanRadioState(&rs, caps));
@@ -533,7 +533,7 @@ namespace WlanNative
                 DWORD dataSize;
                 WLAN_OPCODE_VALUE_TYPE valueType;
                 if (!Query(wlan_intf_opcode_supported_country_or_region_string_list, (void**)&data, &dataSize, &valueType)) return results->ToArray();
-                for (int i = 0; i < data->dwNumberOfItems; i++)
+                for (DWORD i = 0; i < data->dwNumberOfItems; i++)
                 {
                     if (dataSize < (sizeof(WLAN_COUNTRY_OR_REGION_STRING_LIST)+(sizeof(DOT11_COUNTRY_OR_REGION_STRING)))) break;
                     results->Add(gcnew String((char*)data->pCountryOrRegionStringList[i],0,3));

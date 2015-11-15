@@ -82,7 +82,7 @@ namespace WlanNative
 
         static void AddCipherAuthPairs(WLAN_AUTH_CIPHER_PAIR_LIST* pairs, System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ results)
         {
-            for (int i = 0; i < pairs->dwNumberOfItems; i++)
+            for (DWORD i = 0; i < pairs->dwNumberOfItems; i++)
             {
                 DOT11_AUTH_CIPHER_PAIR pair = pairs->pAuthCipherPairList[i];
 				auto auth = TranslateAuth(pair.AuthAlgoId);
