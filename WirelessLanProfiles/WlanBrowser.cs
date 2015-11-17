@@ -363,20 +363,11 @@ namespace WirelessLanProfiles
             else HideTabs( );
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshInterfaces( );
-        }
+        private void btnRefresh_Click(object sender, EventArgs e) => RefreshInterfaces( );
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ConnectTempProfile( );
-        }
+        private void button1_Click(object sender, EventArgs e) => ConnectTempProfile( );
 
-        private void btnProfilesRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshProfiles( );
-        }
+        private void btnProfilesRefresh_Click(object sender, EventArgs e) => RefreshProfiles( );
 
         private void cbProfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -388,60 +379,30 @@ namespace WirelessLanProfiles
             }
         }
 
-        private void btnSetEAP_Click(object sender, EventArgs e)
-        {
-            SetEAPProfile( );
-        }
+        private void btnSetEAP_Click(object sender, EventArgs e) => SetEAPProfile( );
 
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EditProfile( );
-        }
+        private void editToolStripMenuItem_Click(object sender, EventArgs e) => EditProfile( );
 
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            EditProfile( );
-        }
+        private void btnEdit_Click(object sender, EventArgs e) => EditProfile( );
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            SetEAPProfile( );
-        }
+        private void button2_Click(object sender, EventArgs e) => SetEAPProfile( );
 
-        private void btnSetProfile_Click(object sender, EventArgs e)
-        {
-            SetProfile( );
-        }
+        private void btnSetProfile_Click(object sender, EventArgs e) => SetProfile( );
 
-        private void btnResetProfile_Click(object sender, EventArgs e)
-        {
-            ResetProfile( );
-        }
+        private void btnResetProfile_Click(object sender, EventArgs e) => ResetProfile( );
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            RefreshNetworks( );
-        }
+        private void button3_Click(object sender, EventArgs e) => RefreshNetworks( );
 
-        private void cbNetworks_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ShowNetwork( );
-        }
+        private void cbNetworks_SelectedIndexChanged(object sender, EventArgs e) => ShowNetwork( );
 
         private void tbEAPXML_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
-        {
-            ConnectProfile( );
-        }
+        private void btnConnect_Click(object sender, EventArgs e) => ConnectProfile( );
 
-        private void btnDisconnect_Click(object sender, EventArgs e)
-        {
-            Disconnect( );
-        }
+        private void btnDisconnect_Click(object sender, EventArgs e) => Disconnect( );
 
         private void cbNotifyChanges_CheckedChanged(object sender, EventArgs e)
         {
@@ -457,9 +418,6 @@ namespace WirelessLanProfiles
             }
         }
 
-        private void btnRescan_Click(object sender, EventArgs e)
-        {
-            Rescan( );
-        }
+        private void btnRescan_Click(object sender, EventArgs e) => Rescan( );
     }
 }
