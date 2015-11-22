@@ -25,7 +25,8 @@ namespace WirelessLanProfiles
         }
 
         #region Non Event Code
-        WlanNative.WlanNative native = null;
+
+        private WlanNative.WlanNative _native;
 
         private void HideTabs( )
         {
@@ -41,15 +42,15 @@ namespace WirelessLanProfiles
         {
             try
             {
-                if (native == null)
+                if (_native == null)
                 {
-                    native = new WlanNative.WlanNative( );
+                    _native = new WlanNative.WlanNative( );
                 }
-                cbInterfaces.DataSource = native.GetInterfaces( );
+                cbInterfaces.DataSource = _native.GetInterfaces( );
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
@@ -65,7 +66,7 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
@@ -81,12 +82,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void SetEAPProfile( )
+        private void SetEAPProfile( )
         {
             try
             {
@@ -104,12 +105,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void EditProfile( )
+        private void EditProfile( )
         {
             try
             {
@@ -125,12 +126,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void ConnectProfile( )
+        private void ConnectProfile( )
         {
             try
             {
@@ -146,12 +147,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void Disconnect()
+        private void Disconnect()
         {
             try
             {
@@ -163,11 +164,11 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
-        void SetProfile()
+        private void SetProfile()
         {
             try
             {
@@ -187,11 +188,11 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
-        void ResetProfile()
+        private void ResetProfile()
         {
             try
             {
@@ -207,19 +208,20 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
-        void UIError(Exception ex)
+
+        private void UiError(Exception ex)
         {
             if(InvokeRequired)
             {
-                Invoke(new Action(( ) => UIError(ex)));
+                Invoke(new Action(( ) => UiError(ex)));
             }
             else MessageBox.Show(string.Format("Unexpected error: {0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        void RefreshNetworks()
+        private void RefreshNetworks()
         {
             try
             {
@@ -231,12 +233,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void ShowNetwork()
+        private void ShowNetwork()
         {
             try
             {
@@ -248,12 +250,12 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
 
-        void Rescan( )
+        private void Rescan( )
         {
             try
             {
@@ -265,38 +267,39 @@ namespace WirelessLanProfiles
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
         }
 
-        void NotifyMe()
+        private void NotifyMe()
         {
             try
             {
-                native.NotificationReceived += NotificationCallback;
-                native.RegisterForAllNotifications(true);
+                _native.NotificationReceived += NotificationCallback;
+                _native.RegisterForAllNotifications(true);
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
-        void DontNotifyMe()
+
+        private void DontNotifyMe()
         {
             try
             {
-                native.NotificationReceived -= NotificationCallback;
-                native.UnregisterForNotifications( );
+                _native.NotificationReceived -= NotificationCallback;
+                _native.UnregisterForNotifications( );
             }
             catch (Exception ex)
             {
-                UIError(ex);
+                UiError(ex);
             }
 
         }
 
-        void NotificationCallback(ValueType rawNetInterface, String source, int code, int size, IntPtr buffer)
+        private void NotificationCallback(ValueType rawNetInterface, string source, int code, int size, IntPtr buffer)
         {
             if(InvokeRequired)
             {
@@ -318,7 +321,7 @@ namespace WirelessLanProfiles
                     }
                     else
                     {
-                        var iface = interfaces.FirstOrDefault((x) => ((Guid)x.InterfaceGuid).Equals(rawNetInterface));
+                        var iface = interfaces.FirstOrDefault(x => ((Guid)x.InterfaceGuid).Equals(rawNetInterface));
                         if (iface != null)
                         {
                             message.Append(iface.Description);
@@ -339,7 +342,7 @@ namespace WirelessLanProfiles
                 }
                 catch(Exception ex)
                 {
-                    UIError(ex);
+                    UiError(ex);
                 }
             }
         }
