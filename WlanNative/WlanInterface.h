@@ -129,8 +129,7 @@ namespace WlanNative
 
         void Connect(bool secure)
         {
-            WLAN_CONNECTION_PARAMETERS parameters;
-            ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
+            WLAN_CONNECTION_PARAMETERS parameters = {};
             parameters.wlanConnectionMode = secure ? WLAN_CONNECTION_MODE::wlan_connection_mode_discovery_secure : WLAN_CONNECTION_MODE::wlan_connection_mode_discovery_unsecure;
 			parameters.strProfile = nullptr;
 			parameters.pDot11Ssid = nullptr;
@@ -140,10 +139,8 @@ namespace WlanNative
         }
         void Connect(WlanProfile^ profile)
         {
-            WLAN_CONNECTION_PARAMETERS parameters;
             pin_ptr<const wchar_t> name = PtrToStringChars(profile->ProfileName);
-
-            ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
+			WLAN_CONNECTION_PARAMETERS parameters = {};
             parameters.wlanConnectionMode = WLAN_CONNECTION_MODE::wlan_connection_mode_profile;
             parameters.strProfile = name;
 			parameters.pDot11Ssid = nullptr;
@@ -153,10 +150,8 @@ namespace WlanNative
         }
         void Connect(String^ xmlTempProfile)
         {
-            WLAN_CONNECTION_PARAMETERS parameters;
             pin_ptr<const wchar_t> name = PtrToStringChars(xmlTempProfile);
-
-            ZeroMemory(&parameters, sizeof(WLAN_CONNECTION_PARAMETERS));
+			WLAN_CONNECTION_PARAMETERS parameters = {};
             parameters.wlanConnectionMode = WLAN_CONNECTION_MODE::wlan_connection_mode_temporary_profile;
             parameters.strProfile = name;
             parameters.pDot11Ssid = nullptr;
