@@ -75,10 +75,7 @@ namespace WirelessLanProfiles
             try
             {
                 var i = cbInterfaces.SelectedItem as WlanInterface;
-                if (i != null)
-                {
-                    i.Connect(tbTmpProfile.Text);
-                }
+                i?.Connect(tbTmpProfile.Text);
             }
             catch (Exception ex)
             {
@@ -157,10 +154,7 @@ namespace WirelessLanProfiles
             try
             {
                 var i = cbInterfaces.SelectedItem as WlanInterface;
-                if (i != null)
-                {
-                    i.Disconnect( );
-                }
+                i?.Disconnect( );
             }
             catch (Exception ex)
             {
@@ -218,7 +212,7 @@ namespace WirelessLanProfiles
             {
                 Invoke(new Action(( ) => UiError(ex)));
             }
-            else MessageBox.Show(string.Format("Unexpected error: {0}", ex.Message), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void RefreshNetworks()
@@ -260,10 +254,7 @@ namespace WirelessLanProfiles
             try
             {
                 var i = cbInterfaces.SelectedItem as WlanInterface;
-                if (i != null)
-                {
-                    i.ScanForNetworks( );
-                }
+                i?.ScanForNetworks( );
             }
             catch (Exception ex)
             {
